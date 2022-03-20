@@ -24,6 +24,8 @@ img {
 
 button {
     border-radius: 8%;
+    display: block;
+    margin: auto;
 }
 
 a {
