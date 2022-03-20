@@ -6,7 +6,13 @@ import { Home } from './components/Home';
 function App() {
   return (
     <React.Fragment>
-      <Home></Home>
+      <header>
+        <h1>Welcome to The zoo</h1>
+      </header>
+      <main>
+        <Home></Home>
+      </main>
+      <footer>©</footer>
     </React.Fragment>
   );
 }

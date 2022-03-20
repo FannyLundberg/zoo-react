@@ -1,3 +1,32 @@
+section {
+    width: 100vw;
+    text-align: center;
+}
+
+article {
+    width: 80%;
+    margin: 0 auto;
+}
+
+#animalDiv {
+    border: 1px solid black;
+    padding-bottom: 4%;
+    border-radius: 10%;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    background-color: rgb(250, 174, 186);
+}
+
 img {
     width: 20%;
+    border-radius: 20%;
+}
+
+button {
+    border-radius: 8%;
+}
+
+a {
+    text-decoration: none;
+    color: black;
 }

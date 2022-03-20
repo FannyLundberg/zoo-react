@@ -1,5 +1,7 @@
 export function Details() {
     return (
-        <div></div>
+        <div>
+            <p>Details works</p>
+        </div>
     );
 }
