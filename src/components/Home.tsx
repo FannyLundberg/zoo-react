@@ -22,7 +22,18 @@ export function Home() {
         .then((response) => {
 
             let dataFromApi = response.data.map((animal: IAnimal) => {
-                return new Animal(animal.id, animal.name, animal.yearOfBirth, animal.shortDescription, animal.longDescription, animal.imageUrl, animal.isFed, animal.lastFed)
+                return new Animal (
+                    animal.id, 
+                    animal.name, 
+                    animal.latinName, 
+                    animal.yearOfBirth, 
+                    animal.shortDescription, 
+                    animal.longDescription, 
+                    animal.imageUrl, 
+                    animal.medicine, 
+                    animal.isFed, 
+                    animal.lastFed
+                )
             });
             setAnimal(dataFromApi);
 
@@ -45,11 +56,11 @@ export function Home() {
 
     let dataApi = animal.map((animal: Animal) => {
         return (
-            <div id="animalDiv" key={animal.id}>
+            <div className="animalsDiv" key={animal.id}>
                 <h2>Namn: {animal.name}</h2>
                 <p> Födelseår: {animal.yearOfBirth}</p>
                 <p>{animal.shortInfo}</p>
-                <img src={animal.imgUrl}></img>
+                <img className="animalsImg" src={animal.imgUrl}></img>
                 <button onClick={() => moreInfoBtn(animal.id - 1)}><Link to="/details">Mer om {animal.name}</Link></button>
             </div>
         );
@@ -71,9 +82,7 @@ export function Home() {
 
     return (
         <section>
-            <article>
               {dataApi}
-            </article>
         </section>
     );
 

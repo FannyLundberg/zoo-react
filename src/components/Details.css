@@ -1,0 +1,21 @@
+.animalDiv {
+    border: 1px solid black;
+    border-radius: 10%;
+    margin-top: 10%;
+    margin-bottom: 1%;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 2%;
+    background-color: rgb(250, 174, 186);
+}
+
+.animalImg {
+    width: 50%;
+    border-radius: 20%;
+}
+
+.fedBtn {
+    padding: 1.5%;
+    color: white;
+    font-size: 1.1rem;
+}

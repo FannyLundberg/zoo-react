@@ -3,12 +3,7 @@ section {
     text-align: center;
 }
 
-article {
-    width: 80%;
-    margin: 0 auto;
-}
-
-#animalDiv {
+.animalsDiv {
     border: 1px solid black;
     padding-bottom: 4%;
     border-radius: 10%;
@@ -17,7 +12,7 @@ article {
     background-color: rgb(250, 174, 186);
 }
 
-img {
+.animalsImg {
     width: 20%;
     border-radius: 20%;
 }
