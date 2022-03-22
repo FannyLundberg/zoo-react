@@ -9,6 +9,6 @@ export class Animal {
         public imgUrl: string,
         public medicine: string,
         public isFed: boolean,
-        public lastFed: string 
+        public lastFed: string,
         ) {}
 }
