@@ -7,7 +7,7 @@ export function Details() {
     
     const [animal, setAnimal] = useState<Animal[]>([]);
     const [animals, setAnimals] = useState<Animal[]>([]);
-    const [fedTime, setfedTime] = useState(Date);
+    const [fedTime, setFedTime] = useState("");
     const [fed, setFed] = useState(false);
     const [feedAnimal, setFeedAnimal] = useState(true);
     let animalsList: [] = [];
@@ -16,6 +16,9 @@ export function Details() {
     useEffect(() => {
         getAnimalFromLs();
     }, []);
+
+    useEffect(() => {
+    }, [setFed, setFedTime])
 
     // Hämta från localStorage
     function getAnimalFromLs() {
@@ -27,6 +30,30 @@ export function Details() {
 
         setAnimal(lsAnimal)
         setAnimals(lsAnimals)
+
+        for (let i = 0; i < lsAnimals.length; i++) {
+            if (!lsAnimal.some((a: Animal) => a.id === lsAnimals[i].id)) {
+                console.log("Hamnar i if-sats")
+            } else {
+                for (let j = 0; j < lsAnimal.length; j++) {
+                    if (lsAnimal[j].id === lsAnimals[i].id) {
+                        setFedTime(lsAnimals[i].lastFed);
+                        setFed(lsAnimals[i].isFed);
+                    }
+                }
+            }
+        }
+
+
+        // for (let i = 0; i < lsAnimals.length; i++) {
+        //     if(!lsAnimals[i].name === lsAnimal.name) {
+        //         setfedTime(lsAnimals[i].lastFed);
+        //         setFed(lsAnimals[i].isFed);
+        //         console.log("Hej");
+                
+        //     }
+        // }
+        
     }
 
     // Visa ruta om längre än fyra timmar sedan matad
@@ -55,7 +82,6 @@ export function Details() {
                 <img className="animalImg" src={animal.imgUrl} ></img>
                 <p>Status: {foodStatus} </p>
                 {!fed && <button className="fedBtn" onClick={() => fedAnimal(animal.id)}>Mata djur</button>}
-                {/* {ableToFed} */}
                 <p>Senast matad: {fedTime} </p>
             </div>
         );
@@ -67,7 +93,7 @@ export function Details() {
         console.log(id)
 
         // Sätter tiden för matningen
-        setfedTime(Date);
+        setFedTime(Date);
         let feedTime = new Date;
 
         // Sätter till matad till true
@@ -112,17 +138,18 @@ export function Details() {
                 isFed: fedBool,
                 lastFed: feedTime
             };
-            // setFed(fed);
 
             saveToLs(animalObject);
-        // }, 10800000)
-        }, 10000)
+
+            // removeFromLs(id);
+        }, 10800000)
+        // }, 10000)
 
         // Timer som visar om det gått mer än fyra timmar sedan matning
         setTimeout(() => {
             setFeedAnimal(feedAnimal);
-        // }, 14400000)
-        }, 12000)
+        }, 14400000)
+        // // }, 12000)
     }
 
     // Funktion för att spara till localStorage
@@ -132,19 +159,14 @@ export function Details() {
         let animalsObject = localStorage.getItem("animalsList") || "[]";
         let animalsList = JSON.parse(animalsObject);
 
-        // for (let i = 0; i < animalsList.length; i++) {
-        //     if(!fedAnimals.some((a: any) => a.id === animalsList[i].id)) {
-        //         animalsList.push(fedAnimals)
-        //         localStorage.setItem("animalsList", JSON.stringify(animalsList));
-        //     } else {
-        //         for (let j = 0; j < fedAnimals.length; j++) {
-        //             if (fedAnimals[j].id === animalsList[i].id) {
-        //                 animalsList[i].isFed = false;
-        //                 localStorage.setItem("animalsList", JSON.stringify(animalsList));
-        //             }
-        //         }
-        //     }
+        // if (fedAnimals.name == animalsList.name) {
+        //     console.log("Klick")
         // }
+
+        animalsList.push(fedAnimals)
+        localStorage.setItem("animalsList", JSON.stringify(animalsList));
+
+
 
         // if (!fedAnimals.some((fedAnimals) => fedAnimals.id === animalsList)) {
         //     animalsList.isFed = false;
@@ -158,6 +180,14 @@ export function Details() {
 
         console.log(animalsList);
     }
+
+    // function removeFromLs(id: number) {
+    //     animalsList.splice(id, 1);
+
+    //     localStorage.setItem("animalsList", JSON.stringify(animalsList));
+
+    //     getAnimalFromLs();
+    // }
 
     // Rendera HTML
     return (

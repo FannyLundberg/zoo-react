@@ -10,10 +10,16 @@ export function Home() {
     const [animal, setAnimal] = useState<Animal[]>([]);
     let animalList: IAnimal[] = [];
 
+    // // Funktion ska köras direkt när man kommer till sidan
+    // useEffect(() => {
+    //     getData();
+    // }, []);
+
     // Funktion ska köras direkt när man kommer till sidan
     useEffect(() => {
+        if (animal.length > 0) return 
         getData();
-    }, []);
+    })
 
     // Hämta data från API:t
      function getData() {
