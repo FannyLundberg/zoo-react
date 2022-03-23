@@ -12,16 +12,15 @@ export function Home() {
     let listOfAnimal: IAnimal[] = [];
 
 
-    // Funktion ska köras direkt när man kommer till sidan
+    // Funktion ska köras direkt när man kommer till sidan om ls är 0
     useEffect(() => {
         if (localStorage.length > 0) return 
         getDataFromApi();
     });
 
 
-    // Funktion ska köras direkt när man kommer till sidan
+    // Funktion ska köras direkt när man kommer till sidan om ls större än 0
     useEffect(() => {
-        // if (animals.length > 0) return 
         getDataFromLs();
     }, []);
 
@@ -60,9 +59,6 @@ export function Home() {
 
         let dataFromLs = animalsList.map((animal: IAnimal) => {
 
-            // listOfAnimal.push(animal)
-            // localStorage.setItem("listOfAnimals", JSON.stringify(listOfAnimal));
-
             return new Animal (
                 animal.id, 
                 animal.name, 
@@ -86,9 +82,8 @@ export function Home() {
             <div className="animalsDiv" key={animal.id}>
                 <h2>Namn: {animal.name}</h2>
                 <p> Födelseår: {animal.yearOfBirth}</p>
-                <p>{animal.shortInfo}</p>
-                <img className="animalsImg" src={animal.imgUrl}></img>
-                {/* <button onClick={() => moreInfoBtn(animal.id - 1)}> */}
+                <p>{animal.shortDescription}</p>
+                <img className="animalsImg" src={animal.imageUrl}></img>
                 <button>
                     <Link to={`/details/${animal.id}`}>Mer info</Link>
                 </button> 
@@ -98,40 +93,46 @@ export function Home() {
 
 
     // Vad som ska presenteras om respektive djur i listan
-    let dataLs = animalsLs.map((animal: Animal) => {
+    let dataLs = animalsLs.map((animalLs: Animal) => {
         return (
-            <div className="animalsDiv" key={animal.id}>
-                <h2>Namn: {animal.name}</h2>
-                <p> Födelseår: {animal.yearOfBirth}</p>
-                <p>{animal.shortInfo}</p>
-                <img className="animalsImg" src={animal.imgUrl}></img>
-                {/* <button onClick={() => moreInfoBtn(animal.id - 1)}> */}
+            <div className="animalsDiv" key={animalLs.name}>
+                <h2>Namn: {animalLs.name}</h2>
+                <p> Födelseår: {animalLs.yearOfBirth}</p>
+                <p> {animalLs.shortDescription}</p>
+                <img className="animalsImg" src={animalLs.imageUrl}></img>
                 <button>
-                    <Link to={`/details/${animal.id}`}>Mer info</Link>
+                    <Link to={`/details/${animalLs.id}`}>Mer info</Link>
                 </button> 
             </div>
         );
     });
 
-    // // Vid klick på Mer om djuret
-    // function moreInfoBtn(id: any) {
-    //     console.log("Klick på knapp");
 
-    //     // let clickedAnimal = animal[id];
-    //     // saveToLs(clickedAnimal);
-    // };
+    // let needFood = animals.map((animal: Animal) => {
 
-    // // Spara till localStorage
-    // function saveToLs(clickedAnimal: any) {
-    //     console.log(clickedAnimal);
+    //     let d = Date();
 
-    //     animalList.push(clickedAnimal);
-    //     localStorage.setItem("animalsLs", JSON.stringify(animalList));
-    // };
+    //     for (let i = 0; i < animals.length; i++)
+    //         if (animals[i].lastFed <= d) {
+    //             return (
+    //                 <div>
+    //                     <h1>Hej {animal.name}</h1>
+    //                 </div>
+    //             )
+    //         }  else {
+    //             return (
+    //                 <div>
+    //                     <h1>Hej hej {animal.id}</h1>
+    //                 </div>
+    //             )
+    //         }
+    // });
+
 
     // Rendera HTML
     return (
         <section>
+            {/* {needFood} */}
             {dataLs}
             {dataApi}
         </section>
