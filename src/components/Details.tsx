@@ -15,8 +15,7 @@ export function Details() {
     const [feedAnimal, setFeedAnimal] = useState(true);
 
     let params = useParams();
-    let animalsList: any = []; 
-
+    let animalsList: any[] = []; 
 
     useEffect(() => {
         if (params.id) {
@@ -134,32 +133,72 @@ export function Details() {
     }
 
     function saveToLs(animal: Animal) {
-        let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
-        let animalsList = JSON.parse(animalsObject);
 
         let fedAnimals = [];
-        fedAnimals.push(animal)
-        // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+        fedAnimals.push(animal);
+
+        let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+        let animalsList = JSON.parse(animalsObject);
 
         for (let i = 0; i < animalsList.length; i++) {
             if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
                 console.log("Hej")
 
-                // let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
-                // let animalsList = JSON.parse(animalsObject);
+                // animal.isFed = true;
+                // animal.lastFed = Date();
 
-                animalsList[i].isFed = true;
-                animalsList[i].lastFed = new Date(); 
+                animalsList.push(animal);
+                animalsList.splice(i, 1)
+                localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
 
-                // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+                return
 
             } else {
                 console.log("Hej hej")
             }
         }
 
-        console.log(animalsList)
         console.log(fedAnimals)
+
+        // let fedAnimals = [];
+        // fedAnimals.push(animal);
+
+        // for (let i = 0; i < fedAnimals.length; i++) {
+        //     console.log("Hej")
+        //     fedAnimals[i].isFed = true;
+        //     fedAnimals[i].lastFed = new Date(); 
+
+        //     localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+        // };
+
+        // console.log(fedAnimals)
+
+        // let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+        // let animalsList = JSON.parse(animalsObject);
+
+        // let fedAnimals = [];
+        // fedAnimals.push(animal)
+        // // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+
+        // for (let i = 0; i < animalsList.length; i++) {
+        //     if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
+        //         console.log("Hej")
+
+        //         // let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+        //         // let animalsList = JSON.parse(animalsObject);
+
+        //         animalsList[i].isFed = true;
+        //         animalsList[i].lastFed = new Date(); 
+
+        //         // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+
+        //     } else {
+        //         console.log("Hej hej")
+        //     }
+        // }
+        // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+        // console.log(animalsList)
+        // console.log(fedAnimals)
 
         //     if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
                
