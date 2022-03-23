@@ -15,7 +15,7 @@ export function Details() {
     const [feedAnimal, setFeedAnimal] = useState(true);
 
     let params = useParams();
-    let animalsList = []; 
+    let animalsList: any = []; 
 
 
     useEffect(() => {
@@ -39,8 +39,9 @@ export function Details() {
     
 
     function getDataFromLs() {
+        
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
-        let animalsList = JSON.parse(animalsObject);
+        animalsList = JSON.parse(animalsObject);
             
         let dataFromApi = animalsList.map((animal: IAnimal) => {
             return new Animal (
@@ -101,19 +102,20 @@ export function Details() {
         // Sätter till matad till true
         setFeedAnimal(!feedAnimal);
         
-        // let isFed = animal.isFed = true;
+        animal.isFed = true;
 
-        // let timeFed = animal.lastFed = new Date();
+        animal.lastFed = Date();
 
         // let food = [animal.id, animal.isFed = isFed, animal.lastFed = timeFed];
 
         console.log(animal);
 
         saveToLs(animal);
+        // saveToLs(food);
 
         // Sätter tiden för matningen
         setFedTime(Date);
-        let feedTime = new Date;
+        // let feedTime = new Date;
 
         //     //Timer som gör det möjligt att mata igen efter angiven tid
         // setTimeout(() => {
@@ -132,13 +134,32 @@ export function Details() {
     }
 
     function saveToLs(animal: Animal) {
-        // let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
-        // let animalsList = JSON.parse(animalsObject);
+        let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+        let animalsList = JSON.parse(animalsObject);
 
-        // // animalsList.push(animal)
+        let fedAnimals = [];
+        fedAnimals.push(animal)
         // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
 
-        // for (let i = 0; i < animalsList.length; i++) {
+        for (let i = 0; i < animalsList.length; i++) {
+            if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
+                console.log("Hej")
+
+                // let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+                // let animalsList = JSON.parse(animalsObject);
+
+                animalsList[i].isFed = true;
+                animalsList[i].lastFed = new Date(); 
+
+                // localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+
+            } else {
+                console.log("Hej hej")
+            }
+        }
+
+        console.log(animalsList)
+        console.log(fedAnimals)
 
         //     if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
                
