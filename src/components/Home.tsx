@@ -60,8 +60,8 @@ export function Home() {
 
         let dataFromLs = animalsList.map((animal: IAnimal) => {
 
-            listOfAnimal.push(animal)
-            localStorage.setItem("listOfAnimals", JSON.stringify(listOfAnimal));
+            // listOfAnimal.push(animal)
+            // localStorage.setItem("listOfAnimals", JSON.stringify(listOfAnimal));
 
             return new Animal (
                 animal.id, 
@@ -132,8 +132,8 @@ export function Home() {
     // Rendera HTML
     return (
         <section>
-              {dataApi}
-              {dataLs}
+            {dataLs}
+            {dataApi}
         </section>
     );
 }
