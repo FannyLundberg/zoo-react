@@ -9,7 +9,9 @@ export function Home() {
 
     const [animals, setAnimals] = useState<Animal[]>([]);
     const [animalsLs, setAnimalsLs] = useState<Animal[]>([]);
+    const [hungryAnimals, setHungryAnimals] = useState<Animal[]>([]);
     let listOfAnimal: IAnimal[] = [];
+    // let hungryAnimals: Animal[] = [];
 
 
     // Funktion ska köras direkt när man kommer till sidan om ls är 0
@@ -57,24 +59,31 @@ export function Home() {
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
         let animalsList = JSON.parse(animalsObject);
 
-        // let dataFromLs = animalsList.map((animal: IAnimal) => {
-
-        //     return new Animal (
-        //         animal.id, 
-        //         animal.name, 
-        //         animal.latinName, 
-        //         animal.yearOfBirth, 
-        //         animal.shortDescription, 
-        //         animal.longDescription, 
-        //         animal.imageUrl, 
-        //         animal.medicine, 
-        //         animal.isFed, 
-        //         animal.lastFed
-        //     )
-        // });    
+        // FÖr att se vilka som är fed = false och skicka de till egen lista
+        for (let i = 0; i < animalsList.length; i++) {
+            if (animalsList[i].isFed === false) {
+                needFood(animalsList[i]);
+                console.log(animalsList[i])
+            } 
+        }
         setAnimalsLs(animalsList);
     }
     
+
+    function needFood(animal: Animal) {
+        hungryAnimals.push(animal);
+    }
+
+
+    // Vad som ska presenteras om respektive hungrigt djur i listan
+    let hungry = hungryAnimals.map((hungryAnimal: Animal) => {
+        return (
+            <React.Fragment key={hungryAnimal.id}>
+                <h3>{hungryAnimal.name}</h3>
+            </React.Fragment>
+        );
+    });
+
 
     // Vad som ska presenteras om respektive djur i listan
     let dataApi = animals.map((animal: Animal) => {
@@ -108,31 +117,13 @@ export function Home() {
     });
 
 
-    // let needFood = animals.map((animal: Animal) => {
-
-    //     let d = Date();
-
-    //     for (let i = 0; i < animals.length; i++)
-    //         if (animals[i].lastFed <= d) {
-    //             return (
-    //                 <div>
-    //                     <h1>Hej {animal.name}</h1>
-    //                 </div>
-    //             )
-    //         }  else {
-    //             return (
-    //                 <div>
-    //                     <h1>Hej hej {animal.id}</h1>
-    //                 </div>
-    //             )
-    //         }
-    // });
-
-
     // Rendera HTML
     return (
         <section>
-            {/* {needFood} */}
+            <div className="hungryAnimalsDiv">
+                <h2>Hej, Vi är hungriga. Mata oss gärna! </h2>
+                {hungry}
+            </div>
             {dataLs}
             {dataApi}
         </section>

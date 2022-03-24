@@ -6,8 +6,7 @@ import "./Details.css";
 
 export function Details() {
 
-    // const [animalId, setAnimalId] = useState(Number(useParams().id));
-    const [animalId, setAnimalId] = useState(0);
+    const [animalId, setAnimalId] = useState(Number(useParams().id));
     const [animals, setAnimals] = useState<Animal[]>([]);
     const [fed, setFed] = useState(false);
     const [fedTime, setFedTime] = useState("");
@@ -16,22 +15,16 @@ export function Details() {
     let params = useParams();
     let animalsList: Animal[] = []; 
 
-
     useEffect(() => {
         if (params.id) {
             setAnimalId(parseInt(params.id));
         }
-        
-        getDataFromLs();
 
+        getDataFromLs();
     }, []);
 
 
     useEffect(() => { 
-        // if(animalId === 0) return
-
-        // getDataFromLs();
-
     }, [animalId, setFed, setFedTime])
 
 
@@ -42,12 +35,11 @@ export function Details() {
             
         let dataFromLs = animalsList.map((animal: IAnimal) => {
 
-            for (let i = 0; i < animalsList.length; i++) {
-                if (animalsList[i].isFed === true) {
+            if (animal.id === animalId) {
+                if (animal.isFed === true) {
                     cantFeedNow(animal);
-                } else {
-                    canFeedNow(animal);
-                }
+                    console.log(animal)
+                } 
             }
 
             return new Animal (
@@ -64,46 +56,18 @@ export function Details() {
             )
         });
         setAnimals(dataFromLs);
-
-        // for (let i = 0; i < animalsList.length; i++) {
-        //     if (animalsList[i].isFed === true) {
-                
-        //     }
-        // }
-        
-        // setFed(dataFromLs[14].isFed)
-        // console.log(animalId)
-        // setFedTime(animalsList[animalId].lastFed)
     }
 
 
     function cantFeedNow(animal: Animal) {
-        // Sätter matad till true
+
         setFed(!fed);
 
-        // Sätter mata till true
         setFeedAnimal(!feedAnimal);
         
-        animal.isFed = true;
+        let lastfed = animal.lastFed;
 
-        animal.lastFed = Date();
-
-        console.log(animal);
-    }
-
-
-    function canFeedNow(animal: Animal) {
-        // Sätter matad till true
-        setFed(fed);
-
-        // Sätter mata till true
-        setFeedAnimal(feedAnimal);
-        
-        animal.isFed = false;
-
-        animal.lastFed = Date();
-
-        console.log(animal);
+        setFedTime(lastfed);
     }
 
 
@@ -154,14 +118,13 @@ export function Details() {
 
         animal.lastFed = Date();
 
-        console.log(animal);
-
-        saveToLs(animal);
-
         // Sätter tiden för matningen
         setFedTime(Date);
 
-            //Timer som gör det möjligt att mata igen efter angiven tid
+        // Kör funktion för att spara i ls
+        saveToLs(animal);
+
+        //Timer som gör det möjligt att mata igen efter angiven tid
         setTimeout(() => {
             setFed(fed);
             
@@ -202,7 +165,6 @@ export function Details() {
                 return
             } 
         }
-        console.log(fedAnimals)
     }
 
     // Rendera HTML
