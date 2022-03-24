@@ -37,7 +37,7 @@ export function Details() {
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
         animalsList = JSON.parse(animalsObject);
             
-        let dataFromApi = animalsList.map((animal: IAnimal) => {
+        let dataFromLs = animalsList.map((animal: IAnimal) => {
 
             return new Animal (
                 animal.id, 
@@ -52,7 +52,7 @@ export function Details() {
                 animal.lastFed
             )
         });
-        setAnimals(dataFromApi);
+        setAnimals(dataFromLs);
     }
 
 
@@ -109,22 +109,23 @@ export function Details() {
 
         // Sätter tiden för matningen
         setFedTime(Date);
-        // let feedTime = new Date;
 
-        //     //Timer som gör det möjligt att mata igen efter angiven tid
-        // setTimeout(() => {
+            //Timer som gör det möjligt att mata igen efter angiven tid
+        setTimeout(() => {
+            setFed(fed);
+            
+            animal.isFed = false;
+    
+            saveToLs(animal);
+    
+        // }, 10800000)
+        }, 10000)
 
-        //     saveToLs(animalObject);
-
-        // // removeFromLs(id);
-        // // }, 10800000)
-        // }, 10000)
-
-        // // Timer som visar om det gått mer än fyra timmar sedan matning
-        // setTimeout(() => {
-        //     setFeedAnimal(feedAnimal);
-        // // }, 14400000)
-        // }, 12000)
+        // Timer som visar om det gått mer än fyra timmar sedan matning
+        setTimeout(() => {
+            setFeedAnimal(feedAnimal);
+        // }, 14400000)
+        }, 12000)
     }
 
     function saveToLs(animal: Animal) {
@@ -145,9 +146,6 @@ export function Details() {
 
                 return
             } 
-            // else {
-            //     console.log("Hej hej")
-            // }
         }
         console.log(fedAnimals)
     }
