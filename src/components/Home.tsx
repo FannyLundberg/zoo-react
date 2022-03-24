@@ -57,22 +57,22 @@ export function Home() {
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
         let animalsList = JSON.parse(animalsObject);
 
-        let dataFromLs = animalsList.map((animal: IAnimal) => {
+        // let dataFromLs = animalsList.map((animal: IAnimal) => {
 
-            return new Animal (
-                animal.id, 
-                animal.name, 
-                animal.latinName, 
-                animal.yearOfBirth, 
-                animal.shortDescription, 
-                animal.longDescription, 
-                animal.imageUrl, 
-                animal.medicine, 
-                animal.isFed, 
-                animal.lastFed
-            )
-        });    
-        setAnimalsLs(dataFromLs);
+        //     return new Animal (
+        //         animal.id, 
+        //         animal.name, 
+        //         animal.latinName, 
+        //         animal.yearOfBirth, 
+        //         animal.shortDescription, 
+        //         animal.longDescription, 
+        //         animal.imageUrl, 
+        //         animal.medicine, 
+        //         animal.isFed, 
+        //         animal.lastFed
+        //     )
+        // });    
+        setAnimalsLs(animalsList);
     }
     
 

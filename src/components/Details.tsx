@@ -6,31 +6,34 @@ import "./Details.css";
 
 export function Details() {
 
+    // const [animalId, setAnimalId] = useState(Number(useParams().id));
     const [animalId, setAnimalId] = useState(0);
     const [animals, setAnimals] = useState<Animal[]>([]);
-    const [fed, setFed] = useState(Boolean);
+    const [fed, setFed] = useState(false);
     const [fedTime, setFedTime] = useState("");
     const [feedAnimal, setFeedAnimal] = useState(true);
 
     let params = useParams();
-    let animalsList: any[] = []; 
+    let animalsList: Animal[] = []; 
 
 
     useEffect(() => {
         if (params.id) {
             setAnimalId(parseInt(params.id));
         }
+        
         getDataFromLs();
+
     }, []);
 
 
     useEffect(() => { 
-        if(animalId === 0) return
+        // if(animalId === 0) return
 
-        getDataFromLs()
+        // getDataFromLs();
 
     }, [animalId, setFed, setFedTime])
-    
+
 
     function getDataFromLs() {
         
@@ -38,6 +41,14 @@ export function Details() {
         animalsList = JSON.parse(animalsObject);
             
         let dataFromLs = animalsList.map((animal: IAnimal) => {
+
+            for (let i = 0; i < animalsList.length; i++) {
+                if (animalsList[i].isFed === true) {
+                    cantFeedNow(animal);
+                } else {
+                    canFeedNow(animal);
+                }
+            }
 
             return new Animal (
                 animal.id, 
@@ -53,6 +64,46 @@ export function Details() {
             )
         });
         setAnimals(dataFromLs);
+
+        // for (let i = 0; i < animalsList.length; i++) {
+        //     if (animalsList[i].isFed === true) {
+                
+        //     }
+        // }
+        
+        // setFed(dataFromLs[14].isFed)
+        // console.log(animalId)
+        // setFedTime(animalsList[animalId].lastFed)
+    }
+
+
+    function cantFeedNow(animal: Animal) {
+        // Sätter matad till true
+        setFed(!fed);
+
+        // Sätter mata till true
+        setFeedAnimal(!feedAnimal);
+        
+        animal.isFed = true;
+
+        animal.lastFed = Date();
+
+        console.log(animal);
+    }
+
+
+    function canFeedNow(animal: Animal) {
+        // Sätter matad till true
+        setFed(fed);
+
+        // Sätter mata till true
+        setFeedAnimal(feedAnimal);
+        
+        animal.isFed = false;
+
+        animal.lastFed = Date();
+
+        console.log(animal);
     }
 
 
@@ -93,10 +144,10 @@ export function Details() {
 
 
     function fedAnimal(animal: Animal) {
-        // Sätter till matad till true
+        // Sätter matad till true
         setFed(!fed);
 
-        // Sätter till matad till true
+        // Sätter mata till true
         setFeedAnimal(!feedAnimal);
         
         animal.isFed = true;
@@ -118,14 +169,15 @@ export function Details() {
     
             saveToLs(animal);
     
-        // }, 10800000)
-        }, 10000)
+        }, 10800000)
+        // }, 20000)
 
         // Timer som visar om det gått mer än fyra timmar sedan matning
         setTimeout(() => {
             setFeedAnimal(feedAnimal);
-        // }, 14400000)
-        }, 12000)
+
+        }, 14400000)
+        // }, 22000)
     }
 
     function saveToLs(animal: Animal) {
@@ -138,10 +190,13 @@ export function Details() {
 
         for (let i = 0; i < animalsList.length; i++) {
             if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
-                console.log("Hej")
 
+                // Lägg till nya objektet
                 animalsList.push(animal);
+
+                // Ta bort gamla objektet med det id:t
                 animalsList.splice(i, 1)
+
                 localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
 
                 return
