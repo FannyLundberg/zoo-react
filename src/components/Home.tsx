@@ -37,6 +37,21 @@ export function Home() {
                 listOfAnimal.push(animal)
                 localStorage.setItem("listOfAnimals", JSON.stringify(listOfAnimal));
 
+
+                // for (let i = 0; i < listOfAnimal.length; i++) {
+                //     if (listOfAnimal[i].isFed === false) {
+                //         needFood(listOfAnimal[i]);
+                //     } 
+                // }
+
+                // // För att se vilka som är fed = false och skicka de till en funktion
+                // // for (let i = 0; i < listOfAnimal.length; i++) {
+                    if (animal.isFed === false) {
+                        needFood(animal);
+                        console.log(animal)
+                    } 
+                // // }
+
                 return new Animal (
                     animal.id, 
                     animal.name, 
@@ -63,7 +78,6 @@ export function Home() {
         for (let i = 0; i < animalsList.length; i++) {
             if (animalsList[i].isFed === false) {
                 needFood(animalsList[i]);
-                console.log(animalsList[i])
             } 
         }
         setAnimalsLs(animalsList);
