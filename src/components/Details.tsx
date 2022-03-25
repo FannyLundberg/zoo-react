@@ -38,8 +38,11 @@ export function Details() {
             if (animal.id === animalId) {
                 if (animal.isFed === true) {
                     cantFeedNow(animal);
+                    
                     console.log(animal)
-                } 
+                } else {
+                    setFedTime(animal.lastFed)
+                }
             }
 
             return new Animal (
@@ -71,6 +74,67 @@ export function Details() {
     }
 
 
+    function fedAnimal(animal: Animal) {
+        // Sätter matad till true
+        setFed(!fed);
+
+        // Sätter mata till true
+        setFeedAnimal(!feedAnimal);
+        
+        animal.isFed = true;
+
+        animal.lastFed = Date();
+
+        // Sätter tiden för matningen
+        setFedTime(Date);
+
+        // Kör funktion för att spara i ls
+        saveToLs(animal);
+
+        //Timer som gör det möjligt att mata igen efter angiven tid
+        setTimeout(() => {
+            setFed(fed);
+            
+            animal.isFed = false;
+    
+            saveToLs(animal);
+    
+        // }, 10800000)
+        }, 20000)
+
+        // Timer som visar om det gått mer än fyra timmar sedan matning
+        setTimeout(() => {
+            setFeedAnimal(feedAnimal);
+
+        // }, 14400000)
+        }, 22000)
+    }
+
+    function saveToLs(animal: Animal) {
+
+        let fedAnimals = [];
+        fedAnimals.push(animal);
+
+        let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
+        let animalsList = JSON.parse(animalsObject);
+
+        for (let i = 0; i < animalsList.length; i++) {
+            if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
+
+                // Lägg till nya objektet
+                animalsList.push(animal);
+
+                // Ta bort gamla objektet med det id:t
+                animalsList.splice(i, 1)
+
+                localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
+
+                return
+            } 
+        }
+    }
+
+    
     // Visa ruta om längre än fyra timmar sedan matad
     let infoHungry =
     <></>
@@ -106,66 +170,6 @@ export function Details() {
         }
     });
 
-
-    function fedAnimal(animal: Animal) {
-        // Sätter matad till true
-        setFed(!fed);
-
-        // Sätter mata till true
-        setFeedAnimal(!feedAnimal);
-        
-        animal.isFed = true;
-
-        animal.lastFed = Date();
-
-        // Sätter tiden för matningen
-        setFedTime(Date);
-
-        // Kör funktion för att spara i ls
-        saveToLs(animal);
-
-        //Timer som gör det möjligt att mata igen efter angiven tid
-        setTimeout(() => {
-            setFed(fed);
-            
-            animal.isFed = false;
-    
-            saveToLs(animal);
-    
-        }, 10800000)
-        // }, 20000)
-
-        // Timer som visar om det gått mer än fyra timmar sedan matning
-        setTimeout(() => {
-            setFeedAnimal(feedAnimal);
-
-        }, 14400000)
-        // }, 22000)
-    }
-
-    function saveToLs(animal: Animal) {
-
-        let fedAnimals = [];
-        fedAnimals.push(animal);
-
-        let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
-        let animalsList = JSON.parse(animalsObject);
-
-        for (let i = 0; i < animalsList.length; i++) {
-            if (fedAnimals.some((animal: Animal) => animal.id === animalsList[i].id)) {
-
-                // Lägg till nya objektet
-                animalsList.push(animal);
-
-                // Ta bort gamla objektet med det id:t
-                animalsList.splice(i, 1)
-
-                localStorage.setItem("listOfAnimals", JSON.stringify(animalsList));
-
-                return
-            } 
-        }
-    }
 
     // Rendera HTML
     return (

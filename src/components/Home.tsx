@@ -11,7 +11,6 @@ export function Home() {
     const [animalsLs, setAnimalsLs] = useState<Animal[]>([]);
     const [hungryAnimals, setHungryAnimals] = useState<Animal[]>([]);
     let listOfAnimal: IAnimal[] = [];
-    // let hungryAnimals: Animal[] = [];
 
 
     // Funktion ska köras direkt när man kommer till sidan om ls är 0
@@ -55,11 +54,12 @@ export function Home() {
         }
     )};
 
+
     function getDataFromLs() {
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
         let animalsList = JSON.parse(animalsObject);
 
-        // FÖr att se vilka som är fed = false och skicka de till egen lista
+        // För att se vilka som är fed = false och skicka de till en funktion
         for (let i = 0; i < animalsList.length; i++) {
             if (animalsList[i].isFed === false) {
                 needFood(animalsList[i]);
@@ -70,6 +70,7 @@ export function Home() {
     }
     
 
+    // Funktion för att skapa en ny lista
     function needFood(animal: Animal) {
         hungryAnimals.push(animal);
     }
