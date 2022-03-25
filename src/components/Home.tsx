@@ -15,8 +15,11 @@ export function Home() {
 
     // Funktion ska köras direkt när man kommer till sidan om ls är 0
     useEffect(() => {
-        if (localStorage.length > 0) return 
-        getDataFromApi();
+        if (localStorage.length > 0) {
+            return
+        } else {
+            getDataFromApi();
+        } 
     });
 
 
@@ -37,21 +40,6 @@ export function Home() {
                 listOfAnimal.push(animal)
                 localStorage.setItem("listOfAnimals", JSON.stringify(listOfAnimal));
 
-
-                // for (let i = 0; i < listOfAnimal.length; i++) {
-                //     if (listOfAnimal[i].isFed === false) {
-                //         needFood(listOfAnimal[i]);
-                //     } 
-                // }
-
-                // // För att se vilka som är fed = false och skicka de till en funktion
-                // // for (let i = 0; i < listOfAnimal.length; i++) {
-                    if (animal.isFed === false) {
-                        needFood(animal);
-                        console.log(animal)
-                    } 
-                // // }
-
                 return new Animal (
                     animal.id, 
                     animal.name, 
@@ -70,11 +58,12 @@ export function Home() {
     )};
 
 
+    // Hämta data från localStorage
     function getDataFromLs() {
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
         let animalsList = JSON.parse(animalsObject);
 
-        // För att se vilka som är fed = false och skicka de till en funktion
+        // För att se vilka som inte är matade och skicka de till en funktion
         for (let i = 0; i < animalsList.length; i++) {
             if (animalsList[i].isFed === false) {
                 needFood(animalsList[i]);

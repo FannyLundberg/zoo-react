@@ -7,7 +7,7 @@ function App() {
   return (
     <React.Fragment>
       <header>
-        <h1>Welcome to The zoo</h1>
+        <h1>Welcome to The Zoo</h1>
       </header>
       <main>
         <Home></Home>

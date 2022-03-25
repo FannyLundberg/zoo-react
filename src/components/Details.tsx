@@ -9,25 +9,27 @@ export function Details() {
     const [animalId, setAnimalId] = useState(Number(useParams().id));
     const [animals, setAnimals] = useState<Animal[]>([]);
     const [fed, setFed] = useState(false);
-    const [fedTime, setFedTime] = useState("");
+    const [fedTime, setFedTime] = useState(Date);
     const [feedAnimal, setFeedAnimal] = useState(true);
 
     let params = useParams();
     let animalsList: Animal[] = []; 
 
+
     useEffect(() => {
         if (params.id) {
             setAnimalId(parseInt(params.id));
         }
-
         getDataFromLs();
     }, []);
 
 
     useEffect(() => { 
-    }, [animalId, setFed, setFedTime])
+        getDataFromLs();
+    }, [animalId, setFed, setFedTime]);
 
 
+    // Funktion för att hämta data ur ls
     function getDataFromLs() {
         
         let animalsObject = localStorage.getItem("listOfAnimals") || "[]";
@@ -38,8 +40,6 @@ export function Details() {
             if (animal.id === animalId) {
                 if (animal.isFed === true) {
                     cantFeedNow(animal);
-                    
-                    console.log(animal)
                 } else {
                     setFedTime(animal.lastFed)
                 }
@@ -59,11 +59,11 @@ export function Details() {
             )
         });
         setAnimals(dataFromLs);
-    }
+    };
 
 
+    // Funktion för att visa att djuret redan är mata om isFed = true vid inläsning
     function cantFeedNow(animal: Animal) {
-
         setFed(!fed);
 
         setFeedAnimal(!feedAnimal);
@@ -71,10 +71,12 @@ export function Details() {
         let lastfed = animal.lastFed;
 
         setFedTime(lastfed);
-    }
+    };
 
 
+    // Funktion som körs på Mata djur-knappen
     function fedAnimal(animal: Animal) {
+
         // Sätter matad till true
         setFed(!fed);
 
@@ -91,7 +93,7 @@ export function Details() {
         // Kör funktion för att spara i ls
         saveToLs(animal);
 
-        //Timer som gör det möjligt att mata igen efter angiven tid
+        //Timer som gör det möjligt att mata igen efter tre timmar
         setTimeout(() => {
             setFed(fed);
             
@@ -99,17 +101,17 @@ export function Details() {
     
             saveToLs(animal);
     
-        // }, 10800000)
-        }, 20000)
+        }, 10800000)
 
         // Timer som visar om det gått mer än fyra timmar sedan matning
         setTimeout(() => {
             setFeedAnimal(feedAnimal);
 
-        // }, 14400000)
-        }, 22000)
-    }
+        }, 14400000)
+    };
 
+
+    // Funktion för att ha uppdaterad ls
     function saveToLs(animal: Animal) {
 
         let fedAnimals = [];
@@ -132,7 +134,7 @@ export function Details() {
                 return
             } 
         }
-    }
+    };
 
     
     // Visa ruta om längre än fyra timmar sedan matad
@@ -140,7 +142,7 @@ export function Details() {
     <></>
     if (feedAnimal) {
         infoHungry = <p> Jag är hungrig, mata mig gärna! </p>
-    }
+    };
 
 
     // Visa status om matad eller ej
@@ -148,7 +150,7 @@ export function Details() {
     <span> Hungrig </span>
     if (fed) {
         foodStatus = <span> Mätt </span>
-    }
+    };
 
 
     // Vilken info som ska skrivas ut
